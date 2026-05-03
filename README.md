@@ -78,6 +78,7 @@ To maintain consistency and make it easy for search engines and students to find
 
 4. **Use Git CLI for Uploads:**
    - Because textbooks and notes can be large, **do not upload files manually via the GitHub web interface**. Always use the Git Command Line Interface (CLI) to push your files.
+   - See the full **Git LFS guide** below for step-by-step instructions.
 
 5. **Standardized Commit Message Format:**
    - When making a commit, clearly state what was added, where it was added, and avoid vague messages.
@@ -85,3 +86,95 @@ To maintain consistency and make it easy for search engines and students to find
    - ✅ **Example:** `Added : Reinforcement_Learning_Textbook in SEM 8, Fourth_year`
 
 Thank you for contributing and making the **Mumbai University Engineering** community stronger!
+
+---
+
+## 📦 Uploading Large Files with Git LFS (Large File Storage)
+
+GitHub has a **strict 100 MB file size limit**. Most textbooks and reference PDFs easily exceed this. This is why this repository uses **Git LFS (Large File Storage)** — a Git extension that stores large files separately while keeping your repository fast and lightweight.
+
+> **Git LFS replaces large files with lightweight text pointers inside Git, while storing the actual file content on a remote server.**
+
+---
+
+### ⚙️ Step 1 — Install Git LFS
+
+Download and install Git LFS from the official website:
+👉 [https://git-lfs.github.com](https://git-lfs.github.com)
+
+After installation, run this **once** on your machine to initialize it:
+
+```bash
+git lfs install
+```
+
+---
+
+### 📥 Step 2 — Clone the Repository
+
+```bash
+git clone https://github.com/theyashva/Bachelor_of_Engineering_Mumbai_University_Notes.git
+cd Bachelor_of_Engineering_Mumbai_University_Notes
+```
+
+> Git LFS will automatically pull the actual file content when you clone, since `.gitattributes` is already configured to track `*.pdf` files.
+
+---
+
+### 📁 Step 3 — Place Your File in the Correct Folder
+
+Navigate to the correct folder before adding your file. Example:
+
+```
+fourth_year/AIML/sem_8/TEXTBOOKS/
+```
+
+Make sure:
+- The file name uses **Full Form** (no abbreviations)
+- The file name uses **underscores** instead of spaces
+- ✅ Example: `Reinforcement_Learning.pdf`
+
+---
+
+### ➕ Step 4 — Stage, Commit & Push
+
+```bash
+# Stage the new file
+git add fourth_year/AIML/sem_8/TEXTBOOKS/Reinforcement_Learning.pdf
+
+# Commit with the standard format
+git commit -m "Added : Reinforcement_Learning in SEM 8, Fourth_year"
+
+# Push to the main branch
+git push origin main
+```
+
+Git LFS will automatically detect and upload the large file via LFS — **no extra steps needed!**
+
+---
+
+### ✅ How to Verify a File is Tracked by LFS
+
+To confirm your file is being stored via LFS (and not as a raw binary), run:
+
+```bash
+git lfs ls-files
+```
+
+You should see your file listed. If not, ensure the `.gitattributes` file contains:
+
+```
+*.pdf filter=lfs diff=lfs merge=lfs -text
+```
+
+---
+
+### ⚠️ Common Mistakes to Avoid
+
+| Mistake | Fix |
+|---|---|
+| Uploading files via GitHub website | Always use Git CLI |
+| Pushing without Git LFS installed | Run `git lfs install` first |
+| File size over 100 MB pushed without LFS | Migrate using `git lfs migrate import --include="*.pdf"` |
+| Spaces in file names | Use underscores: `My_Notes.pdf` |
+| Short/abbreviated file names | Use full names: `Database_Management_Systems.pdf` |
